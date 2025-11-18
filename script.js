@@ -44,12 +44,27 @@
 // //         card.append(e);
 // //     })
 // // }
+let workers = []
 
 function hideModal(){
     document.querySelector('.overlay').style.display = 'none';
 }
 function addWorkers(){
     document.querySelector('.overlay').style.display = 'flex';
+    document.getElementById('workerForm').addEventListener('submit', handleFormSubmit);
+}
+
+function handleFormSubmit(e){
+    e.preventDefault();
+    const name = document.getElementById('workerName').value.trim();
+    const role = document.getElementById('workerRole').value;
+    const email = document.getElementById('workerEmail').value.trim();
+    const phone = document.getElementById('workerPhone').value.trim();
+    
+
+
+
+    hideModal();
 }
 
 function assignWorkers(){
