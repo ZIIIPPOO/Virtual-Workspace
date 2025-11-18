@@ -49,5 +49,12 @@ function hideModal(){
     document.querySelector('.overlay').style.display = 'none';
 }
 function addWorkers(){
-    document.querySelector('.overlay').style.display = 'block';
+    document.querySelector('.overlay').style.display = 'flex';
+}
+
+function assignWorkers(){
+    document.querySelector('.assign-overlay').style.display = 'flex';
+}
+function hideAssignModal(){
+    document.querySelector('.assign-overlay').style.display = 'none';
 }

@@ -27,27 +27,27 @@
     <main>
         <div class="zone conference">
             <p>Conference Room</p>
-            <button>+</button>
+            <button onclick="assignWorkers()">+</button>
         </div>
         <div class="zone serveurs">
             <p>Servers Room</p>
-            <button>+</button>
+            <button onclick="assignWorkers()">+</button>
         </div>
         <div class="zone securite">
             <p>Security Room</p>
-            <button>+</button>
+            <button onclick="assignWorkers()">+</button>
         </div>
         <div class="zone reception">
             <p>Reception</p>
-            <button>+</button>
+            <button onclick="assignWorkers()">+</button>
         </div>
         <div class="zone personnel">
             <p>Staff Room</p>
-            <button>+</button>
+            <button onclick="assignWorkers()">+</button>
         </div>
         <div class="zone archives">
             <p>Vault</p>
-            <button>+</button>
+            <button onclick="assignWorkers()">+</button>
         </div>
 
         <div class="overlay">
@@ -134,6 +134,24 @@
                 <div class="modal-footer">
                     <button type="button" onclick="hideModal()" class="btn-cancel">Cancel</button>
                     <button type="submit" class="btn-save">Save</button>
+                </div>
+            </div>
+        </div>
+        <div class="assign-overlay">
+            <div class="modal">
+                <div class="modal-header assign">
+                    <h2>Select worker to assign</h2>
+                    <button onclick="hideAssignModal()" class="close-btn">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <img src="images/background.jpg" alt="">
+                        <div>
+                            <h2>NAME</h2>
+                            <p>role</p>
+                        </div>
+                        <button class="edit-button">Add</button>
+                    </div>
                 </div>
             </div>
         </div>

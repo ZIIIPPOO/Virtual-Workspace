@@ -167,17 +167,7 @@ button{
     background-color: rgba(123, 118, 118, 0.1);
 }
 
-.overlay{
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 
 .modal-header{
     display: flex;
@@ -190,7 +180,7 @@ button{
     font-size: 30px;
     padding: 50px;
 }
-
+.assign-overlay,
 .overlay {
     width: 100vw;
     height: 100vh;
@@ -198,7 +188,7 @@ button{
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    /* display: none;*/
+    display: none;
     justify-content: center;
     align-items: center;
     z-index: 1000;  
@@ -323,3 +313,4 @@ button{
     color: white;
     border: none;
 }
+
