@@ -42,7 +42,7 @@ function handleFormSubmit(e){
         experiences,
     };
     workers.push(worker);
-
+    renderWorkers();
     hideModal();
 }
 
@@ -51,4 +51,25 @@ function assignWorkers(){
 }
 function hideAssignModal(){
     document.querySelector('.assign-overlay').style.display = 'none';
+}
+
+function renderWorkers() {
+    const staffMem = document.querySelector('.staff-mem');
+
+    
+    workers.forEach(worker => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <img src="${worker.url}" alt="${worker.name}">
+            <div>
+                <h2>${worker.name}</h2>
+                <p>${worker.role}</p>
+            </div>
+            <button class="edit-button">Edit</button>
+        `;
+        staffMem.appendChild(card);
+    });
+    document.getElementById('workerForm').reset();
+    handleFormSubmit();
 }
