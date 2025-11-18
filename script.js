@@ -56,7 +56,6 @@ function hideAssignModal(){
 function renderWorkers() {
     const staffMem = document.querySelector('.staff-mem');
 
-    
     workers.forEach(worker => {
         const card = document.createElement('div');
         card.className = 'card';
@@ -72,4 +71,15 @@ function renderWorkers() {
     });
     document.getElementById('workerForm').reset();
     handleFormSubmit();
+}
+function previewPhoto() {
+    const url = document.getElementById('workerPhoto').value.trim();
+    const photoPreview = document.querySelector('.photo-preview');
+    
+    
+    if (url) {
+        photoPreview.innerHTML =`<img src="${url}" alt="">`
+    } else {
+        photoPreview.innerHTML = '<span class="photo-placeholder">👤</span>';
+    }
 }
