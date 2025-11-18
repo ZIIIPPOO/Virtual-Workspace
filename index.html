@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </head>
+
 <body>
     <aside>
         <div class="staff-mem">
-            <h1>Staff Members</h1>
+            <h1>Unassigned Staff</h1>
             <div class="card">
-                <img width="40" src="images/background.jpg" alt="">
+                <img src="images/background.jpg" alt="">
                 <div>
                     <h2>NAME</h2>
                     <p>role</p>
                 </div>
                 <button class="edit-button">Edit</button>
-            </div>         
+            </div>
         </div>
-        <button>Add New Worker</button>
+        <button onclick="addWorkers()">Add New Worker</button>
     </aside>
     <main>
-        <div class="zone conference" >
+        <div class="zone conference">
             <p>Conference Room</p>
             <button>+</button>
         </div>
@@ -48,6 +50,95 @@
             <button>+</button>
         </div>
 
+        <div class="overlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Add Worker</h2>
+                    <button onclick="hideModal()" class="close-btn">✕</button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="workerForm">
+                        <div class="form-group">
+                            <label for="workerName">Name:</label>
+                            <input type="text" id="workerName" placeholder="Enter full name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="workerRole">Role:</label>
+                            <select id="workerRole">
+                                <option value="">-- Select Role --</option>
+                                <option value="Receptionist">Receptionist</option>
+                                <option value="IT Technician">IT Technician</option>
+                                <option value="Security Agent">Security Agent</option>
+                                <option value="Manager">Manager</option>
+                                <option value="Cleaning">Cleaning</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="workerPhoto">Photo (URL):</label>
+                            <input type="url" id="workerPhoto" placeholder="https://example.com/photo.jpg">
+                        </div>
+
+                        <div class="photo-preview-section">
+                            <div class="photo-preview">
+                                <span class="photo-placeholder">👤</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="workerEmail">Email:</label>
+                            <input type="email" id="workerEmail" placeholder="example@email.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="workerPhone">Phone:</label>
+                            <input type="tel" id="workerPhone" placeholder="+212 6XX XXX XXX">
+                        </div>
+
+                        <div class="experiences-section">
+                            <h3>Experiences:</h3>
+
+                            <div class="experience-item">
+                                <div class="form-group">
+                                    <label>Company:</label>
+                                    <input type="text" placeholder="Enter company">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Role:</label>
+                                    <input type="text" placeholder="Enter role">
+                                </div>
+
+                                <div class="date-group">
+                                    <div class="form-group">
+                                        <label>From:</label>
+                                        <input type="date">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>To:</label>
+                                        <input type="date">
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn-remove">Remove</button>
+                            </div>
+
+                            <button type="button" class="btn-add-exp">+ Add Experience</button>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="hideModal()" class="btn-cancel">Cancel</button>
+                    <button type="submit" class="btn-save">Save</button>
+                </div>
+            </div>
+        </div>
+
     </main>
 </body>
+
 </html>
