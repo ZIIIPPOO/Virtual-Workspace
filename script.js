@@ -10,15 +10,15 @@ const regex = {
 }
 
 
-function hideModal(){
+function hideModal() {
     document.querySelector('.overlay').style.display = 'none';
 }
-function addWorkers(){
+function addWorkers() {
     document.querySelector('.overlay').style.display = 'flex';
     document.getElementById('workerForm').addEventListener('submit', handleFormSubmit);
 }
 
-function handleFormSubmit(e){
+function handleFormSubmit(e) {
     e.preventDefault();
     const name = document.getElementById('workerName').value.trim();
     const role = document.getElementById('workerRole').value;
@@ -35,7 +35,7 @@ function handleFormSubmit(e){
         alert("Please enter a valid name");
         return;
     }
-    if(!role){
+    if (!role) {
         alert("Please select a role");
         return;
     }
@@ -47,29 +47,29 @@ function handleFormSubmit(e){
         alert("Please enter a valid email");
         return;
     }
-    if(!regex.r_phone.test(phone)){
+    if (!regex.r_phone.test(phone)) {
         alert("Please enter a valid phone number");
         return;
     }
-    if(!regex.r_company.test(company)){
+    if (!regex.r_company.test(company)) {
         alert("Please enter a valid company name");
         return;
     }
-    if(!regex.r_role.test(exp_role)){
+    if (!regex.r_role.test(exp_role)) {
         alert("Please enter a valid role");
         return;
     }
-    if(new Date(from) > new Date(Date.now()) || new Date(to) > new Date(Date.now())){
+    if (new Date(from) > new Date(Date.now()) || new Date(to) > new Date(Date.now())) {
         alert("Please enter a valid date");
         return;
     }
-    if(new Date(from) > new Date(to)){
+    if (new Date(from) > new Date(to)) {
         alert("Please select a valid date range");
         return;
     }
 
     const expItems = document.querySelectorAll('.experience-item');
-    const experiences= [];
+    const experiences = [];
     expItems.forEach((i) => {
         const company = i.querySelector('.company').value.trim();
         const expRole = i.querySelector('.role').value.trim();
@@ -83,7 +83,7 @@ function handleFormSubmit(e){
         }
         experiences.push(exp);
     })
-    
+
     const worker = {
         name,
         role,
@@ -97,10 +97,10 @@ function handleFormSubmit(e){
     hideModal();
 }
 
-function assignWorkers(){
+function assignWorkers() {
     document.querySelector('.assign-overlay').style.display = 'flex';
 }
-function hideAssignModal(){
+function hideAssignModal() {
     document.querySelector('.assign-overlay').style.display = 'none';
 }
 
@@ -121,20 +121,57 @@ function renderWorkers() {
         staffMem.appendChild(card);
     });
     document.getElementById('workerForm').reset();
-handleFormSubmit();
+    handleFormSubmit();
 }
 function previewPhoto() {
     const url = document.getElementById('workerPhoto').value.trim();
     const photoPreview = document.querySelector('.photo-preview');
-    
-    
+
+
     if (url) {
-        photoPreview.innerHTML =`<img src="${url}" alt="">`
+        photoPreview.innerHTML = `<img src="${url}" alt="">`
     } else {
         photoPreview.innerHTML = `<img src="images/img_placeholder.png" alt="">`;
     }
 }
 
-function editWorkerInfos(){
+function editWorkerInfos() {
 
+}
+const div = document.createElement('div')
+
+function addExperience() {
+    const exp_section = document.querySelector('.experiences-section')
+    
+    div.innerHTML += `
+        <div class="experience-item">
+            <div class="form-group">
+                <label>Company:</label>
+                <input class="company" type="text" placeholder="Enter company">
+            </div>
+
+            <div class="form-group">
+                <label>Role:</label>
+                <input class="role" type="text" placeholder="Enter role">
+            </div>
+
+            <div class="date-group">
+                <div class="form-group">
+                    <label>From:</label>
+                    <input class="from" type="date">
+                </div>
+                <div class="form-group">
+                    <label>To:</label>
+                    <input class="to" type="date">
+                </div>
+            </div>
+            <button onclick="removeExperience(this)" type="button" class="btn-remove">Remove</button>
+        </div>`
+
+    exp_section.appendChild(div)
+}
+
+function removeExperience(e) {
+    const parent = e.parentElement
+    parent.innerHTML = ``;
 }
