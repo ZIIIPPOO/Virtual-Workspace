@@ -59,14 +59,14 @@ function handleFormSubmit(e){
         alert("Please enter a valid role");
         return;
     }
-    // if(new Date(from) > new Date(Date.now()) || new Date(to) > new Date(Date.now())){
-    //     alert("Please enter a valid date");
-    //     return;
-    // }
-    // if(new Date(from) > new Date(to)){
-    //     alert("Please select a valid date range");
-    //     return;
-    // }
+    if(new Date(from) > new Date(Date.now()) || new Date(to) > new Date(Date.now())){
+        alert("Please enter a valid date");
+        return;
+    }
+    if(new Date(from) > new Date(to)){
+        alert("Please select a valid date range");
+        return;
+    }
 
     const expItems = document.querySelectorAll('.experience-item');
     const experiences= [];
