@@ -169,7 +169,7 @@ function addExperience() {
     const div = document.createElement('div')
     
     div.innerHTML += `
-        <div class="experience-item">
+        <div >
             <div class="form-group">
                 <label>Company:</label>
                 <input class="company" type="text" placeholder="Enter company">
