@@ -93,18 +93,22 @@ function handleFormSubmit(e) {
         experiences,
     };
     workers.push(worker);
-    renderWorkers();
+    renderWorkers(1);
     hideModal();
 }
 
 function assignWorkers() {
     document.querySelector('.assign-overlay').style.display = 'flex';
+    renderWorkers(2);
+
 }
 function hideAssignModal() {
     document.querySelector('.assign-overlay').style.display = 'none';
 }
 
-function renderWorkers() {
+function renderWorkers(e) {
+    if(e == 1)
+    {
     const staffMem = document.querySelector('.staff-mem');
 
     workers.forEach(worker => {
@@ -121,7 +125,24 @@ function renderWorkers() {
         staffMem.appendChild(card);
     });
     document.getElementById('workerForm').reset();
-    handleFormSubmit();
+        handleFormSubmit();
+    }
+    else if(e == 2){
+        const modal = document.querySelector('.bd');
+        workers.forEach(worker => {
+        const ccard = document.createElement('div');
+        ccard.className = 'card';
+        ccard.innerHTML = `
+            <img src="${worker.url}" alt="${worker.name}">
+            <div>
+                <h2>${worker.name}</h2>
+                <p>${worker.role}</p>
+            </div>
+            <button onclick="editWorkerInfos()" class="edit-button">Add</button>
+        `;
+        modal.appendChild(ccard);
+    });
+    }
 }
 function previewPhoto() {
     const url = document.getElementById('workerPhoto').value.trim();
