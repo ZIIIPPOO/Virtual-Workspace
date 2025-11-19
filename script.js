@@ -8,7 +8,14 @@ const regex = {
     r_company: /^[A-Za-z0-9 .,&'-]{2,100}$/,
     r_role: /^[A-Za-z][A-Za-z .'-]{1,49}$/,
 }
-
+const zoneRules = {
+    1: ["Manager", "Receptionist"],         
+    2: ["IT Technician"],                  
+    3: ["Security Agent"],                 
+    4: ["Receptionist", "Manager"],  
+    5: ["Receptionist", "IT Technician", "Security Agent", "Manager", "Cleaning", "Other"], // Staff Room
+    6: ["Manager", "Security Agent"]   
+};
 
 function hideModal() {
     document.querySelector('.overlay').style.display = 'none';
@@ -93,23 +100,38 @@ function handleFormSubmit(e) {
         experiences,
     };
     workers.push(worker);
-    renderWorkers(1);
+    renderWorkers();
     hideModal();
 }
 
-function assignWorkers() {
+function assignWorkers(zoneNum) {
     document.querySelector('.assign-overlay').style.display = 'flex';
-    renderWorkers(2);
-
+    const modal = document.querySelector('.bd');
+    modal.innerHTML = ''; 
+    const roles = zoneRules[zoneNum];
+        workers.forEach(worker => {
+        if(roles.includes(worker.role) ){
+        const ccard = document.createElement('div');
+        ccard.className = 'card';
+        ccard.innerHTML = `
+            <img src="${worker.url}" alt="${worker.name}">
+            <div>
+                <h2>${worker.name}</h2>
+                <p>${worker.role}</p>
+            </div>
+            <button onclick="editWorkerInfos()" class="edit-button">Add</button>
+        `;
+        modal.appendChild(ccard);
+        }
+    });
 }
 function hideAssignModal() {
     document.querySelector('.assign-overlay').style.display = 'none';
 }
 
 function renderWorkers(e) {
-    if(e == 1)
-    {
     const staffMem = document.querySelector('.staff-mem');
+    staffMem.innerHTML = ``
 
     workers.forEach(worker => {
         const card = document.createElement('div');
@@ -125,24 +147,6 @@ function renderWorkers(e) {
         staffMem.appendChild(card);
     });
     document.getElementById('workerForm').reset();
-        handleFormSubmit();
-    }
-    else if(e == 2){
-        const modal = document.querySelector('.bd');
-        workers.forEach(worker => {
-        const ccard = document.createElement('div');
-        ccard.className = 'card';
-        ccard.innerHTML = `
-            <img src="${worker.url}" alt="${worker.name}">
-            <div>
-                <h2>${worker.name}</h2>
-                <p>${worker.role}</p>
-            </div>
-            <button onclick="editWorkerInfos()" class="edit-button">Add</button>
-        `;
-        modal.appendChild(ccard);
-    });
-    }
 }
 function previewPhoto() {
     const url = document.getElementById('workerPhoto').value.trim();
@@ -159,10 +163,10 @@ function previewPhoto() {
 function editWorkerInfos() {
 
 }
-const div = document.createElement('div')
 
 function addExperience() {
     const exp_section = document.querySelector('.experiences-section')
+    const div = document.createElement('div')
     
     div.innerHTML += `
         <div class="experience-item">
@@ -192,7 +196,6 @@ function addExperience() {
     exp_section.appendChild(div)
 }
 
-function removeExperience(e) {
-    const parent = e.parentElement
-    parent.innerHTML = ``;
+function removeExperience(button) {
+    button.closest('.experience-item').remove();
 }
