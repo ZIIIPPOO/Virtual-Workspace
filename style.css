@@ -207,6 +207,10 @@ button{
     overflow-y: auto;
     padding: 0;
 }
+::-webkit-scrollbar {
+  display: none;
+}
+
 
 .modal-header {
     display: flex;

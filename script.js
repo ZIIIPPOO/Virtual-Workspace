@@ -1,5 +1,14 @@
 
 const workers = []
+const regex = {
+    r_name: /^[a-zA-Z]+ [a-zA-Z]+$/,
+    r_url: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
+    r_email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+    r_phone: /^(?:\+212|0)[5-7]\d{8}$/,
+    r_company: /^[A-Za-z0-9 .,&'-]{2,100}$/,
+    r_role: /^[A-Za-z][A-Za-z .'-]{1,49}$/,
+}
+
 
 function hideModal(){
     document.querySelector('.overlay').style.display = 'none';
@@ -16,6 +25,48 @@ function handleFormSubmit(e){
     const url = document.getElementById('workerPhoto').value.trim();
     const email = document.getElementById('workerEmail').value.trim();
     const phone = document.getElementById('workerPhone').value.trim();
+
+    const company = document.querySelector('.company').value.trim();
+    const exp_role = document.querySelector('.role').value.trim();
+
+    const from = document.querySelector('.from').value;
+    const to = document.querySelector('.to').value;
+    if (!regex.r_name.test(name)) {
+        alert("Please enter a valid name");
+        return;
+    }
+    if(!role){
+        alert("Please select a role");
+        return;
+    }
+    if (!regex.r_url.test(url)) {
+        alert("Please enter a valid url");
+        return;
+    }
+    if (!regex.r_email.test(email)) {
+        alert("Please enter a valid email");
+        return;
+    }
+    if(!regex.r_phone.test(phone)){
+        alert("Please enter a valid phone number");
+        return;
+    }
+    if(!regex.r_company.test(company)){
+        alert("Please enter a valid company name");
+        return;
+    }
+    if(!regex.r_role.test(exp_role)){
+        alert("Please enter a valid role");
+        return;
+    }
+    // if(new Date(from) > new Date(Date.now()) || new Date(to) > new Date(Date.now())){
+    //     alert("Please enter a valid date");
+    //     return;
+    // }
+    // if(new Date(from) > new Date(to)){
+    //     alert("Please select a valid date range");
+    //     return;
+    // }
 
     const expItems = document.querySelectorAll('.experience-item');
     const experiences= [];
@@ -65,12 +116,12 @@ function renderWorkers() {
                 <h2>${worker.name}</h2>
                 <p>${worker.role}</p>
             </div>
-            <button class="edit-button">Edit</button>
+            <button onclick="editWorkerInfos()" class="edit-button">Edit</button>
         `;
         staffMem.appendChild(card);
     });
     document.getElementById('workerForm').reset();
-    handleFormSubmit();
+handleFormSubmit();
 }
 function previewPhoto() {
     const url = document.getElementById('workerPhoto').value.trim();
@@ -80,6 +131,10 @@ function previewPhoto() {
     if (url) {
         photoPreview.innerHTML =`<img src="${url}" alt="">`
     } else {
-        photoPreview.innerHTML = '<span class="photo-placeholder">👤</span>';
+        photoPreview.innerHTML = `<img src="images/img_placeholder.png" alt="">`;
     }
+}
+
+function editWorkerInfos(){
+
 }
