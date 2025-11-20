@@ -9,12 +9,12 @@ const regex = {
     r_role: /^[A-Za-z][A-Za-z .'-]{1,49}$/,
 }
 const zoneRules = {
-    1: ["Manager", "Receptionist"],         
-    2: ["IT Technician"],                  
-    3: ["Security Agent"],                 
-    4: ["Receptionist", "Manager"],  
-    5: ["Receptionist", "IT Technician", "Security Agent", "Manager", "Cleaning", "Other"], // Staff Room
-    6: ["Manager", "Security Agent"]   
+    1: ["Receptionist", "IT Technician", "Security Agent", "Manager", "Cleaning", "Other"],  //Conference Room  
+    2: ["IT Technician", "Manager"],      //Servers Room            
+    3: ["Security Agent", "Manager"],   //Security Room              
+    4: ["Receptionist", "Manager"],  //Reception
+    5: ["Receptionist", "IT Technician", "Security Agent", "Manager", "Cleaning", "Other"], //Staff Room
+    6: ["Manager", "Security Agent", "Other", "IT Technician", "Receptionist"]   //Vault
 };
 
 function hideModal() {
@@ -27,17 +27,18 @@ function addWorkers() {
 
 function handleFormSubmit(e) {
     e.preventDefault();
+    //Main Infos
     const name = document.getElementById('workerName').value.trim();
     const role = document.getElementById('workerRole').value;
     const url = document.getElementById('workerPhoto').value.trim();
     const email = document.getElementById('workerEmail').value.trim();
     const phone = document.getElementById('workerPhone').value.trim();
+    //Experiences
+    // const company = document.querySelector('.company')?.value.trim() || '';
+    // const exp_role = document.querySelector('.role')?.value.trim() || '';
+    // const from = document.querySelector('.from')?.value || '';
+    // const to = document.querySelector('.to')?.value || '';
 
-    const company = document.querySelector('.company').value.trim();
-    const exp_role = document.querySelector('.role').value.trim();
-
-    const from = document.querySelector('.from').value;
-    const to = document.querySelector('.to').value;
     if (!regex.r_name.test(name)) {
         alert("Please enter a valid name");
         return;
@@ -58,22 +59,22 @@ function handleFormSubmit(e) {
         alert("Please enter a valid phone number");
         return;
     }
-    if (!regex.r_company.test(company)) {
-        alert("Please enter a valid company name");
-        return;
-    }
-    if (!regex.r_role.test(exp_role)) {
-        alert("Please enter a valid role");
-        return;
-    }
-    if (new Date(from) > new Date(Date.now()) || new Date(to) > new Date(Date.now())) {
-        alert("Please enter a valid date");
-        return;
-    }
-    if (new Date(from) > new Date(to)) {
-        alert("Please select a valid date range");
-        return;
-    }
+    // if (company && !regex.r_company.test(company)) {
+    //     alert("Please enter a valid company name");
+    //     return;
+    // }
+    // if (exp_role && !regex.r_role.test(exp_role)) {
+    //     alert("Please enter a valid role");
+    //     return;
+    // }
+    // if (new Date(from) > new Date(Date.now()) || new Date(to) > new Date(Date.now())) {
+    //     alert("Please enter a valid date");
+    //     return;
+    // }
+    // if (new Date(from) > new Date(to)) {
+    //     alert("Please select a valid date range");
+    //     return;
+    // }
 
     const expItems = document.querySelectorAll('.experience-item');
     const experiences = [];
@@ -87,6 +88,22 @@ function handleFormSubmit(e) {
             expRole,
             from,
             to,
+        }
+        if (company && !regex.r_company.test(company)) {
+            alert("Please enter a valid company name");
+            return;
+        }
+        if (expRole && !regex.r_role.test(expRole)) {
+            alert("Please enter a valid role");
+            return;
+        }
+        if (new Date(from) > new Date(Date.now()) || new Date(to) > new Date(Date.now())) {
+            alert("Please enter a valid date");
+            return;
+        }
+        if (new Date(from) > new Date(to)) {
+            alert("Please select a valid date range");
+            return;
         }
         experiences.push(exp);
     })
@@ -103,25 +120,26 @@ function handleFormSubmit(e) {
     renderWorkers();
     hideModal();
 }
-
+let selectedZone;
 function assignWorkers(zoneNum) {
+    selectedZone = zoneNum;
     document.querySelector('.assign-overlay').style.display = 'flex';
     const modal = document.querySelector('.bd');
-    modal.innerHTML = ''; 
+    modal.innerHTML = '';
     const roles = zoneRules[zoneNum];
-        workers.forEach(worker => {
-        if(roles.includes(worker.role) ){
-        const ccard = document.createElement('div');
-        ccard.className = 'card';
-        ccard.innerHTML = `
+    workers.forEach(worker => {
+        if (roles.includes(worker.role)) {
+            const ccard = document.createElement('div');
+            ccard.className = 'card';
+            ccard.innerHTML = `
             <img src="${worker.url}" alt="${worker.name}">
             <div>
                 <h2>${worker.name}</h2>
                 <p>${worker.role}</p>
             </div>
-            <button onclick="editWorkerInfos()" class="edit-button">Add</button>
+            <button onclick="addToZone(this)" class="edit-button">Add</button>
         `;
-        modal.appendChild(ccard);
+            modal.appendChild(ccard);
         }
     });
 }
@@ -130,9 +148,8 @@ function hideAssignModal() {
 }
 
 function renderWorkers(e) {
-    const staffMem = document.querySelector('.staff-mem');
+    const staffMem = document.querySelector('.mem');
     staffMem.innerHTML = ``
-
     workers.forEach(worker => {
         const card = document.createElement('div');
         card.className = 'card';
@@ -160,16 +177,24 @@ function previewPhoto() {
     }
 }
 
-function editWorkerInfos() {
+// function editWorkerInfos() {
 
+// }
+function addToZone(button){
+    const card = button.closest('.card');
+    card.querySelector('button').remove();
+    const list = document.querySelectorAll('.assigned-list');
+    const zone = list[selectedZone-1];
+    zone.style.display = 'flex'
+    zone.appendChild(card)
 }
 
 function addExperience() {
     const exp_section = document.querySelector('.experiences-section')
     const div = document.createElement('div')
-    
+
     div.innerHTML += `
-        <div >
+        <div class="experience-item">
             <div class="form-group">
                 <label>Company:</label>
                 <input class="company" type="text" placeholder="Enter company">
