@@ -1,10 +1,11 @@
 
-const workers = []
+let workers = []
+const unassigned = []
 const regex = {
     r_name: /^[a-zA-Z]+ [a-zA-Z]+$/,
     r_url: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
     r_email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    r_phone: /^(?:\+212|0)[5-7]\d{8}$/,
+    r_phone: /^\+\d{1,3} \(\d{3}\) \d{3}-\d{4}$/,
     r_company: /^[A-Za-z0-9 .,&'-]{2,100}$/,
     r_role: /^[A-Za-z][A-Za-z .'-]{1,49}$/,
 }
@@ -47,7 +48,7 @@ function handleFormSubmit(e) {
         alert("Please select a role");
         return;
     }
-    if (!regex.r_url.test(url)) {
+    if (url && !regex.r_url.test(url)) {
         alert("Please enter a valid url");
         return;
     }
@@ -148,9 +149,13 @@ function hideAssignModal() {
 }
 let id = 0;
 function renderWorkers(e) {
+    // console.log(workers);
+
     const staffMem = document.querySelector('.mem');
     staffMem.innerHTML = ``
     workers.forEach(worker => {
+        console.log(worker);
+        console.log(worker.name);
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
@@ -172,7 +177,8 @@ function previewPhoto() {
               
     if (url) {
         photoPreview.innerHTML = `<img src="${url}" alt="">`
-    } else {
+    }
+     else {
         photoPreview.innerHTML = `<img src="images/img_placeholder.png" alt="">`;
     }
 }
@@ -198,15 +204,22 @@ function addToZone(button){
     zone.appendChild(card);
     hideAssignModal();
 
+    const backToUnassigned = workers.splice(id - 1, 1);
     workers.splice(id - 1, 1);
+    console.log(workers)
+    unassigned.push(backToUnassigned[0]);
     renderWorkers();
 }
 
 function removeFromZone(button) {
-    const card = button.closest('.card');
-    workers.push(card);
-    card.remove(); 
-    renderWorkers();    
+    const card = button.closest('.card')
+
+    unassigned.forEach(worker => {
+        workers = [...workers, worker];
+         console.log(worker);
+    }); 
+    card.remove();
+    renderWorkers();
 }
 
 function addExperience() {
