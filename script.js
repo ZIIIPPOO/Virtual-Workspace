@@ -146,7 +146,7 @@ function assignWorkers(zoneNum) {
 function hideAssignModal() {
     document.querySelector('.assign-overlay').style.display = 'none';
 }
-
+let id = 0;
 function renderWorkers(e) {
     const staffMem = document.querySelector('.mem');
     staffMem.innerHTML = ``
@@ -164,12 +164,12 @@ function renderWorkers(e) {
         staffMem.appendChild(card);
     });
     document.getElementById('workerForm').reset();
+    id++;
 }
 function previewPhoto() {
     const url = document.getElementById('workerPhoto').value.trim();
     const photoPreview = document.querySelector('.photo-preview');
-
-
+              
     if (url) {
         photoPreview.innerHTML = `<img src="${url}" alt="">`
     } else {
@@ -182,6 +182,7 @@ function editWorkerInfos() {
 }
 function addToZone(button){
     const card = button.closest('.card');
+    
     card.querySelector('button').remove();
 
     const removeBtn = document.createElement('button');
@@ -196,12 +197,16 @@ function addToZone(button){
     zone.style.display = 'flex'
     zone.appendChild(card);
     hideAssignModal();
+
+    workers.splice(id - 1, 1);
+    renderWorkers();
 }
+
 function removeFromZone(button) {
     const card = button.closest('.card');
-    
+    workers.push(card);
     card.remove(); 
-    renderWorkers();
+    renderWorkers();    
 }
 
 function addExperience() {
