@@ -177,9 +177,9 @@ function previewPhoto() {
     }
 }
 
-function editWorkerInfos() {
+// function editWorkerInfos() {
 
-}
+// }
 function addToZone(button){
     const card = button.closest('.card');
     card.querySelector('button').remove();
