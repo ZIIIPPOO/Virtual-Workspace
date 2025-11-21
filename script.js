@@ -183,10 +183,25 @@ function editWorkerInfos() {
 function addToZone(button){
     const card = button.closest('.card');
     card.querySelector('button').remove();
+
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'X';
+    removeBtn.className = 'remove'  
+    removeBtn.addEventListener('click',(e) =>{
+        removeFromZone(removeBtn);
+    })
+    card.appendChild(removeBtn);
     const list = document.querySelectorAll('.assigned-list');
     const zone = list[selectedZone-1];
     zone.style.display = 'flex'
-    zone.appendChild(card)
+    zone.appendChild(card);
+    hideAssignModal();
+}
+function removeFromZone(button) {
+    const card = button.closest('.card');
+    
+    card.remove(); 
+    renderWorkers();
 }
 
 function addExperience() {

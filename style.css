@@ -346,3 +346,19 @@ button{
     object-fit: cover;
 }
 
+.zone .card .remove {
+    background-color: #ef4444;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.zone .card .remove:hover {
+    background-color: #dc2626;
+    transform: scale(1.05);
+}
