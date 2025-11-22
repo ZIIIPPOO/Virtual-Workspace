@@ -206,7 +206,7 @@ function showWorkerDetails(button){
                             </div>
                         `;
                     }
-                    detailsBody.innerHTML += `<button class="edit-button">Edit</button>` // Add edit button
+                    detailsBody.innerHTML += `<button class="edit-button">Edit</button>` 
             }
         }
     });
