@@ -1,6 +1,5 @@
 
 let workers = []
-const unassigned = []
 const regex = {
     r_name: /^[a-zA-Z]+ [a-zA-Z]+$/,
     r_url: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
@@ -16,6 +15,14 @@ const zoneRules = {
     4: ["Receptionist", "Manager"],  //Reception
     5: ["Receptionist", "IT Technician", "Security Agent", "Manager", "Cleaning", "Other"], //Staff Room
     6: ["Manager", "Security Agent", "Other", "IT Technician", "Receptionist"]   //Vault
+};
+const zoneCapacity = {
+    1: 20,  // Conference Room
+    2: 3,   // Servers Room
+    3: 2,   // Security Room
+    4: 2,   // Reception
+    5: 15,  // Staff Room
+    6: 1    // Vault
 };
 
 function hideModal() {
@@ -123,13 +130,23 @@ function handleFormSubmit(e) {
 }
 let selectedZone;
 function assignWorkers(zoneNum) {
+
+    // const list = document.querySelectorAll('.assigned-list');
+    // const zone = list[zoneNum-1];
+    // const currentCount = zone.querySelectorAll('.card').length;
+    
+    // if (currentCount >= zoneCapacity[zoneNum]) {
+    //     alert(`This zone is full! Maximum capacity: ${zoneCapacity[zoneNum]}`);
+    //     return;
+    // }
+
     selectedZone = zoneNum;
     document.querySelector('.assign-overlay').style.display = 'flex';
     const modal = document.querySelector('.bd');
     modal.innerHTML = '';
     const roles = zoneRules[zoneNum];
     workers.forEach(worker => {
-        if (roles.includes(worker.role)) {
+        if (roles.includes(worker.role) && !worker.assigned) {
             const ccard = document.createElement('div');
             ccard.className = 'card';
             ccard.innerHTML = `

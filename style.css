@@ -72,7 +72,7 @@ main {
     color: white;
 }
 .conference {
-        grid-column: 1 / 11;
+    grid-column: 1 / 11;
     grid-row: 1 / 8;
 }
 
@@ -84,7 +84,7 @@ main {
 
 .serveurs{
     grid-column: 15 / 21;
-    grid-row: 1 / 8; 
+    grid-row: 1 / 8;
 }
 
 .securite{
@@ -167,7 +167,7 @@ button{
 }
 
 .zone .card {
-    width: 50%;
+    width: fit-content;
     padding: 12px;
     margin: 0;
 }
@@ -361,4 +361,11 @@ button{
 .zone .card .remove:hover {
     background-color: #dc2626;
     transform: scale(1.05);
+}
+
+.reception:not(:has(.card)),
+.serveurs:not(:has(.card)),
+.securite:not(:has(.card)),
+.archives:not(:has(.card)) {
+    background-color: rgba(255, 0, 38, 0.4);
 }
