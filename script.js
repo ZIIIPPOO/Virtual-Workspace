@@ -1,5 +1,7 @@
 
 let workers = []
+let editIndex;
+let editing = false
 const regex = {
     r_name: /^[a-zA-Z]+ [a-zA-Z]+$/,
     r_url: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
@@ -30,6 +32,8 @@ function hideModal() {
 }
 function addWorkers() {
     document.querySelector('.overlay').style.display = 'flex';
+    document.querySelector('.form-header h2').textContent = 'Add Worker';
+    document.querySelector('.photo-preview').innerHTML = `<img src="images/img_placeholder.png" alt="">`
     document.getElementById('workerForm').addEventListener('submit', handleFormSubmit);
 }
 
@@ -125,7 +129,13 @@ function handleFormSubmit(e) {
         experiences,
         assigned: false
     };
-    workers.push(worker);
+    if (editing) {
+        workers[editIndex] = worker
+        editing = false
+    } 
+    else {
+        workers.push(worker);
+    }
     renderWorkers();
     hideModal();
 }
@@ -133,9 +143,9 @@ let selectedZone;
 function assignWorkers(zoneNum) {
 
     const list = document.querySelectorAll('.assigned-list');
-    const zone = list[zoneNum-1];
+    const zone = list[zoneNum - 1];
     const currentCount = zone.querySelectorAll('.card').length;
-    
+
     if (currentCount >= zoneCapacity[zoneNum]) {
         alert(`This zone is full! Maximum capacity: ${zoneCapacity[zoneNum]}`);
         return;
@@ -168,9 +178,9 @@ function hideAssignModal() {
 function renderWorkers(e) {
     const staffMem = document.querySelector('.mem');
     staffMem.innerHTML = '';
-    
+
     for (let i = 0; i < workers.length; i++) {
-        if (!workers[i].assigned) { 
+        if (!workers[i].assigned) {
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
@@ -193,28 +203,28 @@ function previewPhoto() {
     if (url) {
         photoPreview.innerHTML = `<img src="${url}" alt="">`
     }
-     else {
+    else {
         photoPreview.innerHTML = `<img src="images/img_placeholder.png" alt="">`;
     }
 }
-function showWorkerDetails(button){
+function showWorkerDetails(button) {
     document.querySelector('.details-overlay').style.display = 'flex';
     const card = button.parentElement;
     const name = card.querySelector('h2').textContent.trim();
     const detailsBody = document.querySelector('.dtt');
-        workers.forEach(worker => {
-            
-                if (worker.name == name) {
-                    detailsBody.innerHTML = `
+    workers.forEach(worker => {
+
+        if (worker.name == name) {
+            detailsBody.innerHTML = `
                         <h2>${worker.name}</h2>
                         <img src="${worker.url}" alt="${worker.name}" onerror="this.src='images/img_placeholder.png'">
                         <p>${worker.role}</p>
                         <p>${worker.email}</p>
                         <p>${worker.phone}</p>`;
-                if (worker.experiences.length > 0) {
-                    detailsBody.innerHTML += '<h3>Experiences:</h3>';
-                    for (let i = 0; i < worker.experiences.length; i++) {
-                        detailsBody.innerHTML += `
+            if (worker.experiences.length > 0) {
+                detailsBody.innerHTML += '<h3>Experiences:</h3>';
+                for (let i = 0; i < worker.experiences.length; i++) {
+                    detailsBody.innerHTML += `
                             <div class="expp">
                                 <p>Company: ${worker.experiences[i].company}</p>
                                 <p>Role: ${worker.experiences[i].expRole}</p>
@@ -222,60 +232,85 @@ function showWorkerDetails(button){
                                 <p>To: ${worker.experiences[i].to}</p>
                             </div>
                         `;
-                    }
-                    detailsBody.innerHTML += `<button class="edit-button">Edit</button>` 
+                }
             }
+            detailsBody.innerHTML += `<button onclick="editWorkerInfos(this)" class="edit-button">Edit</button>`
         }
     });
 }
-function hideDetailsModal(){
+function hideDetailsModal() {
     document.querySelector('.details-overlay').style.display = 'none';
 }
 
-function editWorkerInfos() {
 
+function editWorkerInfos(button) {
+    hideDetailsModal();
+    const detailsBody = button.closest('.dtt');
+    const name = detailsBody.querySelector('h2').textContent.trim();
+
+    workers.forEach((worker, index) => {
+        if (worker.name === name) {
+            editIndex = index;
+            editing = true
+
+            document.querySelector('.overlay').style.display = 'flex';
+            document.querySelector('.modal-header h2').textContent = 'Edit Worker';
+            document.getElementById('workerForm').addEventListener('submit', handleFormSubmit);
+
+            document.getElementById('workerName').value = worker.name;
+            document.getElementById('workerRole').value = worker.role;
+            document.getElementById('workerPhoto').value = worker.url;
+            document.getElementById('workerEmail').value = worker.email;
+            document.getElementById('workerPhone').value = worker.phone;
+
+            previewPhoto();
+
+        }
+    })
+
+    console.log(name);
 }
-function addToZone(button){
+function addToZone(button) {
     const card = button.closest('.card');
     const name = card.querySelector('h2').textContent.trim();
-    
+
     for (let i = 0; i < workers.length; i++) {
         if (workers[i].name === name) {
             workers[i].assigned = true;
             break;
         }
     }
-    
+
     card.querySelector('button').remove();
-    
+
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'X';
-    removeBtn.className = 'remove'  
-    removeBtn.onclick = function() {
+    removeBtn.className = 'remove'
+    removeBtn.onclick = function () {
         removeFromZone(removeBtn);
     }
     card.appendChild(removeBtn);
-    
+
     const list = document.querySelectorAll('.assigned-list');
-    const zone = list[selectedZone-1];
+    const zone = list[selectedZone - 1];
     zone.style.display = 'flex'
     zone.appendChild(card);
     hideAssignModal();
-    
+
     renderWorkers();
 }
 
 function removeFromZone(button) {
     const card = button.closest('.card');
     const name = card.querySelector('h2').textContent.trim();
-    
+
     for (let i = 0; i < workers.length; i++) {
         if (workers[i].name === name) {
             workers[i].assigned = false;
             break;
         }
     }
-    
+
     card.remove();
     renderWorkers();
 }
