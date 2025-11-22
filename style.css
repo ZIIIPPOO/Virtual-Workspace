@@ -496,5 +496,110 @@ button{
 .serveurs:not(:has(.card)),
 .securite:not(:has(.card)),
 .archives:not(:has(.card)) {
-    background-color: rgba(255, 0, 38, 0.4);
+    background-color: rgba(159, 66, 80, 0.4);
 }
+
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+    aside {
+        width: 30vw;
+    }   
+    
+    main {
+        width: 70vw;
+    }
+    
+    .zone {
+        font-size: 14px;
+    }
+    
+    .zone .card {
+        width: 90%;
+    }
+    
+    h1 {
+        font-size: 20px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    body {
+        flex-direction: column;
+
+    }
+    
+    aside {
+        width: 100vw;
+        min-height: 30vh;
+    }
+    
+    aside > button:nth-last-child(1) {
+        margin-bottom: 20px;
+        width: 90%;
+        font-size: 16px;
+        padding: 15px 20px;
+    }
+    
+    h1 {
+        font-size: 22px;
+        margin-top: 15px;
+    }
+    
+    main {
+        width: 100vw;
+        height: auto;
+        min-height: 70vh;
+    }
+    
+    .zone {
+        font-size: 11px;
+        padding: 3px;
+    }
+    
+    .zone .card {
+        width: 100%;
+        flex-direction: column;
+        padding: 6px;  
+        gap: 4px;     
+        margin: 2px;   
+    }
+    .zone .card img{
+        width: 30px;
+        height: 30px;
+    }
+    .zone .card h2{
+        font-size: 10px;
+    }
+    .zone .card p{
+        font-size: 10px;
+    }
+    .zone .card .remove{
+        font-size: 10px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    
+    .card {
+        padding: 12px;
+    }
+    .card img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .card h2 {
+        font-size: 14px;
+    }
+    
+    .card p {
+        font-size: 12px;
+    }
+    
+    .modal {
+        width: 95%;
+    }
+
+}
+
