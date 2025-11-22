@@ -9,7 +9,7 @@
     <script src="script.js" defer></script>
 </head>
 
-<body>
+<body class="body">
     <aside>
         <div class="staff-mem">
             <h1>Unassigned Staff</h1>
@@ -19,7 +19,7 @@
         </div>
         <button onclick="addWorkers()">Add New Worker</button>
     </aside>
-    <main>
+    <main class="container">
         <div class="zone conference">
             <p>Conference Room</p>
             <div class="assigned-list"></div>
@@ -119,6 +119,17 @@
                     <button onclick="hideAssignModal()" class="close-btn">✕</button>
                 </div>
                 <div class="modal-body bd">
+
+                </div>
+            </div>
+        </div>
+        <div class="details-overlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Worker Details</h2>
+                    <button onclick="hideDetailsModal()" class="close-btn">✕</button>
+                </div>
+                <div class="modal-body dtt">
 
                 </div>
             </div>
