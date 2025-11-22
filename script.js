@@ -123,6 +123,7 @@ function handleFormSubmit(e) {
         email,
         phone,
         experiences,
+        assigned: false
     };
     workers.push(worker);
     renderWorkers();
@@ -150,12 +151,12 @@ function assignWorkers(zoneNum) {
             const ccard = document.createElement('div');
             ccard.className = 'card';
             ccard.innerHTML = `
-            <img src="${worker.url}" alt="${worker.name}">
+            <img src="${worker.url}" alt="${worker.name}" onerror="this.src='images/img_placeholder.png'">
             <div>
                 <h2>${worker.name}</h2>
                 <p>${worker.role}</p>
             </div>
-            <button onclick="addToZone(this)" class="edit-button">Add</button>
+            <button onclick="addToZone(this)">Add</button>
         `;
             modal.appendChild(ccard);
         }
@@ -164,34 +165,31 @@ function assignWorkers(zoneNum) {
 function hideAssignModal() {
     document.querySelector('.assign-overlay').style.display = 'none';
 }
-let id = 0;
 function renderWorkers(e) {
-    // console.log(workers);
-
     const staffMem = document.querySelector('.mem');
-    staffMem.innerHTML = ``
-    workers.forEach(worker => {
-        console.log(worker);
-        console.log(worker.name);
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-            <img src="${worker.url}" alt="${worker.name}">
-            <div>
-                <h2>${worker.name}</h2>
-                <p>${worker.role}</p>
-            </div>
-            <button onclick="editWorkerInfos()" class="edit-button">Edit</button>
-        `;
-        staffMem.appendChild(card);
-    });
+    staffMem.innerHTML = '';
+    
+    for (let i = 0; i < workers.length; i++) {
+        if (!workers[i].assigned) { 
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <img src="${workers[i].url}" alt="${workers[i].name}" onerror="this.src='images/img_placeholder.png'">
+                <div>
+                    <h2>${workers[i].name}</h2>
+                    <p>${workers[i].role}</p>
+                </div>
+                <button onclick="showWorkerDetails(this)">Details</button>
+            `;
+            staffMem.appendChild(card);
+        }
+    }
     document.getElementById('workerForm').reset();
-    id++;
 }
 function previewPhoto() {
     const url = document.getElementById('workerPhoto').value.trim();
     const photoPreview = document.querySelector('.photo-preview');
-              
+
     if (url) {
         photoPreview.innerHTML = `<img src="${url}" alt="">`
     }
@@ -199,42 +197,85 @@ function previewPhoto() {
         photoPreview.innerHTML = `<img src="images/img_placeholder.png" alt="">`;
     }
 }
+function showWorkerDetails(button){
+    document.querySelector('.details-overlay').style.display = 'flex';
+    const card = button.parentElement;
+    const name = card.querySelector('h2').textContent.trim();
+    const detailsBody = document.querySelector('.dtt');
+        workers.forEach(worker => {
+            
+                if (worker.name == name) {
+                    detailsBody.innerHTML = `
+                        <h2>${worker.name}</h2>
+                        <img src="${worker.url}" alt="${worker.name}" onerror="this.src='images/img_placeholder.png'">
+                        <p>${worker.role}</p>
+                        <p>${worker.email}</p>
+                        <p>${worker.phone}</p>`;
+                if (worker.experiences.length > 0) {
+                    detailsBody.innerHTML += '<h3>Experiences:</h3>';
+                    for (let i = 0; i < worker.experiences.length; i++) {
+                        detailsBody.innerHTML += `
+                            <div class="expp">
+                                <p>Company: ${worker.experiences[i].company}</p>
+                                <p>Role: ${worker.experiences[i].expRole}</p>
+                                <p>From: ${worker.experiences[i].from}</p>
+                                <p>To: ${worker.experiences[i].to}</p>
+                            </div>
+                        `;
+                    }
+                    detailsBody.innerHTML += `<button class="edit-button">Edit</button>` 
+            }
+        }
+    });
+}
+function hideDetailsModal(){
+    document.querySelector('.details-overlay').style.display = 'none';
+}
 
 function editWorkerInfos() {
 
 }
 function addToZone(button){
     const card = button.closest('.card');
+    const name = card.querySelector('h2').textContent.trim();
+    
+    for (let i = 0; i < workers.length; i++) {
+        if (workers[i].name === name) {
+            workers[i].assigned = true;
+            break;
+        }
+    }
     
     card.querySelector('button').remove();
-
+    
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'X';
     removeBtn.className = 'remove'  
-    removeBtn.addEventListener('click',(e) =>{
+    removeBtn.onclick = function() {
         removeFromZone(removeBtn);
-    })
+    }
     card.appendChild(removeBtn);
+    
     const list = document.querySelectorAll('.assigned-list');
     const zone = list[selectedZone-1];
     zone.style.display = 'flex'
     zone.appendChild(card);
     hideAssignModal();
-
-    const backToUnassigned = workers.splice(id - 1, 1);
-    workers.splice(id - 1, 1);
-    console.log(workers)
-    unassigned.push(backToUnassigned[0]);
+    
     renderWorkers();
 }
 
 function removeFromZone(button) {
-    const card = button.closest('.card')
-
-    unassigned.forEach(worker => {
-        workers = [...workers, worker];
-         console.log(worker);
-    }); 
+    const card = button.closest('.card');
+    const name = card.querySelector('h2').textContent.trim();
+    
+    for (let i = 0; i < workers.length; i++) {
+        if (workers[i].name === name) {
+            workers[i].assigned = false;
+            break;
+        }
+    }
+    
     card.remove();
     renderWorkers();
 }
