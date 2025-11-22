@@ -131,14 +131,14 @@ function handleFormSubmit(e) {
 let selectedZone;
 function assignWorkers(zoneNum) {
 
-    // const list = document.querySelectorAll('.assigned-list');
-    // const zone = list[zoneNum-1];
-    // const currentCount = zone.querySelectorAll('.card').length;
+    const list = document.querySelectorAll('.assigned-list');
+    const zone = list[zoneNum-1];
+    const currentCount = zone.querySelectorAll('.card').length;
     
-    // if (currentCount >= zoneCapacity[zoneNum]) {
-    //     alert(`This zone is full! Maximum capacity: ${zoneCapacity[zoneNum]}`);
-    //     return;
-    // }
+    if (currentCount >= zoneCapacity[zoneNum]) {
+        alert(`This zone is full! Maximum capacity: ${zoneCapacity[zoneNum]}`);
+        return;
+    }
 
     selectedZone = zoneNum;
     document.querySelector('.assign-overlay').style.display = 'flex';
