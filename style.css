@@ -167,7 +167,7 @@ button{
 }
 
 .zone .card {
-    width: fit-content;
+    width: 260px;
     padding: 12px;
     margin: 0;
 }
@@ -381,72 +381,8 @@ button{
 }
 
 .dtt img {
-    width: 170px;
-    height: 170px;
-    border-radius: 50%;
-}
-
-.dtt > p {
-    font-size: 20px;
-    margin: 5px;
-    padding: 8px;
-    background-color: #f0f4ff;
-    border-radius: 8px;
-    width: 100%;
-    text-align: center;
-}
-
-.dtt h3 {
-    font-size: 20px;
-    color: #667eea;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-weight: 600;
-    align-self: flex-start;
-}
-.expp {
-    padding: 20px;
-    background-color: #667eea;
-    width: 100%;
-    border-radius: 12px;
-    margin-bottom: 15px;
-}
-
-
-.expp p {
-    font-size: 20px;
-    color: white;
-    margin: 10px 0;
-    padding-left: 5px;
-    line-height: 1.6;
-    font-weight: 400;
-}
-
-.edit-button{
-    font-size: 20px;
-    padding: 10px 0;
-    width: 20%;
-}
-
-.dtt {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    gap: 15px;
-}
-
-.dtt h2 {
-    font-size: 26px;
-    color: #2c3e50;
-    margin-bottom: 10px;
-    font-weight: 600;
-}
-
-.dtt img {
-    width: 170px;
-    height: 170px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
 }
 
@@ -602,4 +538,3 @@ button{
     }
 
 }
-
