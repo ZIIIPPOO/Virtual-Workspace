@@ -27,6 +27,10 @@ const zoneCapacity = {
     6: 1    // Vault
 };
 
+function saveToLocalStorage() {
+    localStorage.setItem('workers', JSON.stringify(workers));
+}
+
 function hideModal() {
     document.querySelector('.overlay').style.display = 'none';
 }
@@ -136,6 +140,7 @@ function handleFormSubmit(e) {
     else {
         workers.push(worker);
     }
+    saveToLocalStorage();
     renderWorkers();
     hideModal();
 }
@@ -277,6 +282,7 @@ function addToZone(button) {
     for (let i = 0; i < workers.length; i++) {
         if (workers[i].name === name) {
             workers[i].assigned = true;
+            saveToLocalStorage();
             break;
         }
     }
@@ -296,7 +302,6 @@ function addToZone(button) {
     zone.style.display = 'flex'
     zone.appendChild(card);
     hideAssignModal();
-
     renderWorkers();
 }
 
@@ -307,6 +312,7 @@ function removeFromZone(button) {
     for (let i = 0; i < workers.length; i++) {
         if (workers[i].name === name) {
             workers[i].assigned = false;
+            saveToLocalStorage();
             break;
         }
     }
@@ -350,3 +356,11 @@ function addExperience() {
 function removeExperience(button) {
     button.closest('.experience-item').remove();
 }
+
+window.addEventListener('DOMContentLoaded', function() {
+    const saved = localStorage.getItem('workers');
+    if (saved) {
+        workers = JSON.parse(saved);
+        renderWorkers();
+    }
+});
