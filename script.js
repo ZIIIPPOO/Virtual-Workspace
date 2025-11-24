@@ -1,7 +1,8 @@
 
 let workers = []
 let editIndex;
-let editing = false
+let editing = false;
+let expFlag = 0;
 const regex = {
     r_name: /^[a-zA-Z]+ [a-zA-Z]+$/,
     r_url: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
@@ -105,25 +106,32 @@ function handleFormSubmit(e) {
             from,
             to,
         }
-        if (company && !regex.r_company.test(company)) {
+        if (!regex.r_company.test(company)) {
             alert("Please enter a valid company name");
+            expFlag = 1;
             return;
         }
-        if (expRole && !regex.r_role.test(expRole)) {
+        if (!regex.r_role.test(expRole)) {
             alert("Please enter a valid role");
+            expFlag = 1;
             return;
         }
         if (new Date(from) > new Date(Date.now()) || new Date(to) > new Date(Date.now())) {
             alert("Please enter a valid date");
+            expFlag = 1;
             return;
         }
         if (new Date(from) > new Date(to)) {
             alert("Please select a valid date range");
+            expFlag = 1;
             return;
         }
         experiences.push(exp);
     })
-
+    if(expFlag)
+    {
+        return;
+    }
     const worker = {
         name,
         role,
@@ -301,6 +309,7 @@ function addToZone(button) {
     const zone = list[selectedZone - 1];
     zone.style.display = 'flex'
     zone.appendChild(card);
+    console.log(list.length)
     hideAssignModal();
     renderWorkers();
 }

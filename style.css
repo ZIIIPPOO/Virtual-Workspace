@@ -161,7 +161,6 @@ button{
     flex-direction: column;
     gap: 5px;
     width: 90%;
-    height: 63%;
     overflow-y: auto;
     padding: 8px;
 }
